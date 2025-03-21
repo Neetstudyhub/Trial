@@ -7,7 +7,7 @@
   <title><data:blog.pageTitle/></title>
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet">
 
   <!-- CSS Styles -->
   <b:skin><![CDATA[
@@ -16,6 +16,7 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      text-decoration: none; /* Remove underline globally */
     }
 
     body {
@@ -42,24 +43,25 @@
     .logo {
       font-family: 'Roboto', sans-serif;
       font-size: 1.5em;
-      text-align: center;
-      flex-grow: 1;
+      text-align: left;
       color: white;
       cursor: pointer;
       text-decoration: none;
     }
 
-    .logo:hover {
-      text-decoration: underline;
+    @media (min-width: 768px) {
+      .logo {
+        margin-right: auto; /* Align logo to the left */
+      }
     }
 
     /* Hamburger Menu Icon */
     .hamburger {
-      display: none; /* Hidden by default for larger screens */
+      display: flex; /* Visible by default for smaller screens */
       flex-direction: column;
       gap: 5px;
       cursor: pointer;
-      z-index: 1001; /* Ensure it stays above other elements */
+      z-index: 1001;
     }
 
     .hamburger div {
@@ -139,6 +141,7 @@
       border-radius: 5px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
       z-index: 100;
+      min-width: 200px;
     }
 
     nav ul li ul li {
@@ -154,18 +157,14 @@
     }
 
     /* Mobile Navigation */
-    @media (max-width: 768px) {
-      .hamburger {
-        display: flex !important;
-      }
-
+    @media (max-width: 767px) {
       nav {
         position: fixed;
         top: 0;
         left: -250px; /* Initially hidden off-screen */
         width: 250px;
         height: 100%;
-        background-color: #ff4d4d; /* Red Premium Theme */
+        background-color: #ff4d4d;
         padding: 20px;
         box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
         transition: left 0.3s ease-in-out;
@@ -204,7 +203,7 @@
       cursor: pointer;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 767px) {
       .close-tab {
         display: block;
       }
@@ -212,9 +211,9 @@
 
     /* Main Layout */
     .container {
-      max-width: 1200px;
+      max-width: 100%; /* Full width */
       margin: 20px auto;
-      padding: 0 15px;
+      padding: 0 15px; /* Small padding for mobile */
     }
 
     /* Blog Posts (Homepage) */
@@ -222,7 +221,8 @@
       display: flex;
       flex-wrap: wrap;
       gap: 30px;
-      margin: 0 -15px; /* Remove side padding for edge-to-edge layout */
+      margin: 0;
+      padding: 0;
     }
 
     .post-card {
@@ -233,8 +233,7 @@
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       overflow: hidden;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
-      text-decoration: none; /* Remove underline */
-      margin: 0 15px; /* Add spacing between cards */
+      margin: 0 auto; /* Center cards */
     }
 
     .post-card:hover {
@@ -281,26 +280,43 @@
       margin-bottom: 10px;
     }
 
+    .post-card p.tags a::before {
+      content: '#'; /* Add # before tags */
+    }
+
     /* Responsive Card Layout */
-    @media (min-width: 481px) and (max-width: 768px) {
+    @media (min-width: 482px) and (max-width: 767px) {
       .post-card {
-        width: calc(50% - 30px); /* Two cards per row */
-        height: 400px; /* Increased height for tablets */
+        width: calc(46% - 15px); /* Two cards per row with gap */
+        height: 400px; /* Increased height */
       }
 
-      .post-card img {
-        height: 200px; /* Increased thumbnail height */
+      .container {
+        padding: 0 20px; /* Add padding for tablets */
       }
     }
 
-    @media (min-width: 769px) {
+    @media (min-width: 768px) and (max-width: 1080px) {
       .post-card {
-        width: calc(33.33% - 30px); /* Three cards per row */
-        height: 450px; /* Increased height for desktop */
+        width: calc(30% - 20px); /* Three cards per row */
+        height: 450px; /* Increased height */
       }
 
-      .post-card img {
-        height: 250px; /* Increased thumbnail height */
+      .container {
+        padding: 0 30px; /* Add padding for desktop */
+      }
+    }
+
+    @media (min-width: 1081px) {
+      .post-card {
+        width: calc(30% - 40px); /* Three cards per row with extra space */
+        height: 450px; /* Same height */
+      }
+
+      .container {
+        max-width: 1200px; /* Limit container width */
+        margin: 20px auto;
+        padding: 0 50px; /* Add extra padding for larger screens */
       }
     }
 
@@ -379,7 +395,7 @@
 
       // Close Menu When Clicking Outside
       document.addEventListener('click', function (event) {
-        if (!nav.contains(event.target) &amo;&amp; !hamburger.contains(event.target)) {
+        if (!nav.contains(event.target) && !hamburger.contains(event.target)) {
           nav.classList.remove('open');
           hamburger.classList.remove('open');
           document.body.style.overflow = ''; // Restore scrolling
