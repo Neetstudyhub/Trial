@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html b:version='2' class='v2' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+<head>
+  <!-- Meta Tags -->
+  <meta content='width=device-width, initial-scale=1.0' name='viewport'/>
+  <title><data:blog.pageTitle/></title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
+
+  <!-- CSS Styles -->
+  <b:skin><![CDATA[
+    /* Reset Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      line-height: 1.6;
+      background-color: #ffffff;
+      color: #000000;
+      padding: 0;
+      margin: 0;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #ff4d4d; /* Red Premium Theme */
+      color: white;
+      padding: 10px 20px;
+      position: relative;
+    }
+
+    /* Logo */
+    .logo {
+      font-family: 'Roboto', sans-serif;
+      font-size: 1.5em;
+      text-align: center;
+      flex-grow: 1;
+      color: white;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .logo:hover {
+      text-decoration: underline;
+    }
+
+    /* Hamburger Menu Icon */
+    .hamburger {
+      display: none; /* Hidden by default for larger screens */
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      z-index: 1001; /* Ensure it stays above other elements */
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: white;
+      transition: all 0.3s ease;
+    }
+
+    /* Cross Icon */
+    .hamburger.open div:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .hamburger.open div:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.open div:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    /* Navigation Menu */
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: transparent;
+      height: auto;
+      width: auto;
+      box-shadow: none;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    nav ul li {
+      position: relative;
+    }
+
+    nav ul li a {
+      font-family: 'Roboto', sans-serif;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 8px 15px;
+      display: block;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      background-color: #e60000; /* Darker Red on Hover */
+    }
+
+    /* Submenu Indicator Icon */
+    nav ul li.has-submenu > a::after {
+      content: '+';
+      margin-left: 5px;
+      font-size: 12px;
+      color: white;
+    }
+
+    /* Submenu */
+    nav ul li ul {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #ff4d4d;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      z-index: 100;
+    }
+
+    nav ul li ul li {
+      margin-bottom: 5px;
+    }
+
+    nav ul li ul li:last-child {
+      margin-bottom: 0;
+    }
+
+    nav ul li:hover ul {
+      display: block;
+    }
+
+    /* Mobile Navigation */
+    @media (max-width: 768px) {
+      .hamburger {
+        display: flex !important;
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+        left: -250px; /* Initially hidden off-screen */
+        width: 250px;
+        height: 100%;
+        background-color: #ff4d4d; /* Red Premium Theme */
+        padding: 20px;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+        transition: left 0.3s ease-in-out;
+        z-index: 1000;
+      }
+
+      nav.open {
+        left: 0; /* Slide in */
+      }
+
+      nav ul {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      nav ul li ul {
+        position: static;
+        display: none;
+        background-color: transparent;
+        box-shadow: none;
+      }
+
+      nav ul li:hover ul {
+        display: block;
+      }
+    }
+
+    /* Close Tab */
+    .close-tab {
+      display: none;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 1.5em;
+      color: white;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .close-tab {
+        display: block;
+      }
+    }
+
+    /* Main Layout */
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+
+    /* Blog Posts (Homepage) */
+    .post-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin: 0 -15px; /* Remove side padding for edge-to-edge layout */
+    }
+
+    .post-card {
+      background-color: white;
+      width: calc(100% - 30px); /* Full width for mobile */
+      height: 350px; /* Default height */
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-decoration: none; /* Remove underline */
+      margin: 0 15px; /* Add spacing between cards */
+    }
+
+    .post-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .post-card img {
+      width: 100%; /* Full width */
+      height: 150px; /* Fixed height for thumbnail */
+      object-fit: cover; /* Ensures image fits without distortion */
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .post-card .content {
+      padding: 15px;
+      height: calc(100% - 150px); /* Remaining height after thumbnail */
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .post-card h2 {
+      font-family: 'Roboto', sans-serif;
+      font-size: 1.2em;
+      margin-bottom: 10px;
+      color: #ff4d4d; /* Red Premium Theme */
+      text-decoration: none; /* Remove underline */
+    }
+
+    .post-card p.meta {
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.9em;
+      color: #666666;
+      margin-bottom: 10px;
+    }
+
+    .post-card p.tags {
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.9em;
+      color: #ff4d4d; /* Red Premium Theme */
+      margin-bottom: 10px;
+    }
+
+    /* Responsive Card Layout */
+    @media (min-width: 481px) and (max-width: 768px) {
+      .post-card {
+        width: calc(50% - 30px); /* Two cards per row */
+        height: 400px; /* Increased height for tablets */
+      }
+
+      .post-card img {
+        height: 200px; /* Increased thumbnail height */
+      }
+    }
+
+    @media (min-width: 769px) {
+      .post-card {
+        width: calc(33.33% - 30px); /* Three cards per row */
+        height: 450px; /* Increased height for desktop */
+      }
+
+      .post-card img {
+        height: 250px; /* Increased thumbnail height */
+      }
+    }
+
+    /* Footer */
+    footer {
+      background-color: #ff4d4d; /* Red Premium Theme */
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      margin-top: 20px;
+    }
+
+    footer p {
+      margin: 0;
+      font-size: 0.9em;
+    }
+
+    /* 404 Error Page */
+    .error-page {
+      text-align: center;
+      padding: 50px 20px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .error-page h1 {
+      font-family: 'Roboto', sans-serif;
+      font-size: 3em;
+      color: #ff4d4d; /* Red Premium Theme */
+    }
+
+    .error-page p {
+      font-family: 'Roboto', sans-serif;
+      font-size: 1.2em;
+      margin-bottom: 20px;
+    }
+
+    .error-page a {
+      font-family: 'Roboto', sans-serif;
+      color: #ff4d4d; /* Red Premium Theme */
+      text-decoration: none;
+      font-weight: bold;
+      padding: 10px 20px;
+      border: 2px solid #ff4d4d; /* Red Premium Theme */
+      border-radius: 5px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .error-page a:hover {
+      background-color: #ff4d4d; /* Red Premium Theme */
+      color: white;
+    }
+  ]]></b:skin>
+
+  <!-- JavaScript for Hamburger Menu -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const hamburger = document.querySelector('.hamburger');
+      const nav = document.querySelector('nav');
+      const closeTab = document.querySelector('.close-tab');
+
+      // Open Menu
+      hamburger.addEventListener('click', function () {
+        nav.classList.add('open');
+        hamburger.classList.add('open');
+        document.body.style.overflow = 'hidden'; // Prevent scrolling when menu is open
+      });
+
+      // Close Menu
+      closeTab.addEventListener('click', function () {
+        nav.classList.remove('open');
+        hamburger.classList.remove('open');
+        document.body.style.overflow = ''; // Restore scrolling when menu is closed
+      });
+
+      // Close Menu When Clicking Outside
+      document.addEventListener('click', function (event) {
+        if (!nav.contains(event.target) &amo;&amp; !hamburger.contains(event.target)) {
+          nav.classList.remove('open');
+          hamburger.classList.remove('open');
+          document.body.style.overflow = ''; // Restore scrolling
+        }
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <!-- Header Section -->
+  <header>
+    <div class="hamburger">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <a href='/' class="logo"><data:blog.title/></a>
+    <nav>
+      <span class="close-tab">&amp;times;</span>
+      <ul>
+        <li><a href='/'>Home</a></li>
+        <li class="has-submenu"><a href='/about'>About</a>
+          <ul>
+            <li class="has-submenu"><a href='/about/team'>Our Team</a>
+              <ul>
+                <li><a href='/about/team/komal'>Komal</a></li>
+                <li><a href='/about/team/varun'>Varun</a></li>
+              </ul>
+            </li>
+            <li><a href='/about/mission'>Our Mission</a></li>
+          </ul>
+        </li>
+        <li><a href='/contact'>Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <div class='container'>
+    <div class='main-content'>
+      <b:section id='main' showaddelement='yes'>
+        <b:widget id='Blog1' locked='true' title='Blog Posts' type='Blog'>
+          <b:includable id='main'>
+            <!-- Homepage Layout -->
+            <b:if cond='data:view.isHomepage'>
+              <div class='post-cards'>
+                <b:loop values='data:posts' var='post'>
+                  <div class='post-card'>
+                    <!-- Thumbnail -->
+                    <b:if cond='data:post.firstImageUrl'>
+                      <img expr:src='data:post.firstImageUrl' alt='Post Thumbnail'/>
+                    <b:else/>
+                      <img src='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgJDVT0yZi6tAeKIDNHABddnuVsbwnoQi40D2F5U7yLwwrA4pujA8n3VbtH9sg83wi7aduRkmsvXsTGfXQGfddCbHg2qCHOpGOhIqj1TbyoxSVTiNJiV8fcLsOKKD2Suzu-NhvBWYU73e8BX2mw3iH_6VkDZZ2_V_QS_nMwpwrv6MnVZKN1rvIf1UulKKLW/s1600/1000034989.jpg' alt='Placeholder Thumbnail'/>
+                    </b:if>
+                    <div class='content'>
+                      <!-- Title -->
+                      <h2><a expr:href='data:post.url'><data:post.title/></a></h2>
+                      <!-- Meta Information -->
+                      <p class='meta'>
+                        <b:if cond='data:post.author'>By <data:post.author/></b:if>
+                        <b:if cond='data:post.date'> | <data:post.date/></b:if>
+                      </p>
+                      <!-- Tags/Labels -->
+                      <p class='tags'>
+                        <b:if cond='data:post.labels'>
+                          <b:loop values='data:post.labels' var='label'>
+                            <a expr:href='data:label.url'><data:label.name/></a>
+                          </b:loop>
+                        </b:if>
+                      </p>
+                    </div>
+                  </div>
+                </b:loop>
+              </div>
+            </b:if>
+
+            <!-- Individual Post Page Layout -->
+            <b:if cond='data:view.isSingleItem'>
+              <b:loop values='data:posts' var='post'>
+                <div class='single-post'>
+                  <h1><data:post.title/></h1>
+                  <!-- Meta Information -->
+                  <p class='meta'>
+                    <b:if cond='data:post.author'>By <data:post.author/></b:if>
+                    <b:if cond='data:post.date'> | <data:post.date/></b:if>
+                  </p>
+                  <!-- Tags/Labels -->
+                  <p class='tags'>
+                    <b:if cond='data:post.labels'>
+                      <b:loop values='data:post.labels' var='label'>
+                        <a expr:href='data:label.url'><data:label.name/></a>
+                      </b:loop>
+                    </b:if>
+                  </p>
+                  <!-- Post Content -->
+                  <p><data:post.body/></p>
+
+                  <!-- Related Posts -->
+                  <div class='related-posts'>
+                    <h3>Related Posts</h3>
+                    <div class='post-cards'>
+                      <b:loop values='data:relatedPosts' var='relatedPost' max='4'>
+                        <b:if cond='data:relatedPost.title'>
+                          <div class='post-card'>
+                            <!-- Thumbnail -->
+                            <b:if cond='data:relatedPost.firstImageUrl'>
+                              <img expr:src='data:relatedPost.firstImageUrl' alt='Related Post Thumbnail'/>
+                            <b:else/>
+                              <img src='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgJDVT0yZi6tAeKIDNHABddnuVsbwnoQi40D2F5U7yLwwrA4pujA8n3VbtH9sg83wi7aduRkmsvXsTGfXQGfddCbHg2qCHOpGOhIqj1TbyoxSVTiNJiV8fcLsOKKD2Suzu-NhvBWYU73e8BX2mw3iH_6VkDZZ2_V_QS_nMwpwrv6MnVZKN1rvIf1UulKKLW/s1600/1000034989.jpg' alt='Placeholder Thumbnail'/>
+                            </b:if>
+                            <div class='content'>
+                              <!-- Title -->
+                              <h2><a expr:href='data:relatedPost.url'><data:relatedPost.title/></a></h2>
+                              <!-- Meta Information -->
+                              <p class='meta'>
+                                <b:if cond='data:relatedPost.author'>By <data:relatedPost.author/></b:if>
+                                <b:if cond='data:relatedPost.date'> | <data:relatedPost.date/></b:if>
+                              </p>
+                              <!-- Tags/Labels -->
+                              <p class='tags'>
+                                <b:if cond='data:relatedPost.labels'>
+                                  <b:loop values='data:relatedPost.labels' var='label'>
+                                    <a expr:href='data:label.url'><data:label.name/></a>
+                                  </b:loop>
+                                </b:if>
+                              </p>
+                            </div>
+                          </div>
+                        </b:if>
+                      </b:loop>
+                    </div>
+                  </div>
+                </div>
+              </b:loop>
+            </b:if>
+
+            <!-- 404 Error Page -->
+            <b:if cond='data:view.isError'>
+              <div class='error-page'>
+                <h1>404</h1>
+                <p>Oops! The page you're looking for doesn't exist.</p>
+                <a href='/'>Go Back to Home</a>
+              </div>
+            </b:if>
+          </b:includable>
+        </b:widget>
+      </b:section>
+    </div>
+  </div>
+
+  <!-- Footer Section -->
+  <footer>
+    <p>&amp;copy; <data:blog.title/>. All rights reserved.</p>
+  </footer>
+</body>
+</html>
