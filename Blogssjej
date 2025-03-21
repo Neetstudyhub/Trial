@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html b:version='2' class='v2' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+<head>
+  <!-- Meta Tags -->
+  <meta content='width=device-width, initial-scale=1.0' name='viewport'/>
+  <title><data:blog.pageTitle/></title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet">
+
+  <!-- CSS Styles -->
+  <b:skin><![CDATA[
+    /* Reset Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      line-height: 1.6;
+      background-color: #ffffff;
+      color: #000000;
+      padding: 0;
+      margin: 0;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #ff4d4d; /* Red Premium Theme */
+      color: white;
+      padding: 10px 20px;
+      position: relative;
+    }
+
+    /* Logo */
+    .logo {
+      font-family: 'Roboto', sans-serif;
+      font-size: 1.5em;
+      text-align: center;
+      flex-grow: 1;
+      color: white;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .logo:hover {
+      text-decoration: underline;
+    }
+
+    /* Hamburger Menu Icon */
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      z-index: 1001; /* Ensure it stays above other elements */
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: white;
+      transition: all 0.3s ease;
+    }
+
+    /* Cross Icon */
+    .hamburger.open div:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .hamburger.open div:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.open div:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    /* Navigation Menu */
+    nav {
+      position: fixed;
+      top: 0;
+      left: -250px; /* Initially hidden off-screen */
+      width: 250px;
+      height: 100%;
+      background-color: #ff4d4d; /* Red Premium Theme */
+      padding: 20px;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+      transition: left 0.3s ease-in-out;
+      z-index: 1000;
+    }
+
+    nav.open {
+      left: 0; /* Slide in */
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav ul li {
+      margin-bottom: 15px;
+    }
+
+    nav ul li a {
+      font-family: 'Roboto', sans-serif;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 8px 15px;
+      display: block;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      background-color: #e60000; /* Darker Red on Hover */
+    }
+
+    /* Close Tab */
+    .close-tab {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 1.5em;
+      color: white;
+      cursor: pointer;
+    }
+
+    /* Desktop Navigation */
+    @media (min-width: 768px) {
+      .hamburger {
+        display: none !important;
+      }
+
+      nav {
+        position: static;
+        display: flex;
+        justify-content: center;
+        background-color: transparent;
+        height: auto;
+        width: auto;
+        box-shadow: none;
+      }
+
+      nav ul {
+        flex-direction: row;
+        gap: 20px;
+      }
+
+      nav ul li {
+        margin-bottom: 0;
+      }
+    }
+
+    /* Main Layout */
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+
+    /* Blog Posts (Homepage) */
+    .post {
+      background-color: white;
+      margin-bottom: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .post:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .post h2 {
+      font-family: 'Roboto', sans-serif;
+      font-size: 2em;
+      margin: 15px;
+      color: #ff4d4d; /* Red Premium Theme */
+    }
+
+    .post p {
+      font-family: 'Roboto', sans-serif;
+      font-size: 1em;
+      color: #000000;
+      margin: 15px;
+    }
+
+    .post a.read-more {
+      font-family: 'Roboto', sans-serif;
+      color: #ff4d4d; /* Red Premium Theme */
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      margin: 15px;
+      padding: 8px 15px;
+      border: 2px solid #ff4d4d; /* Red Premium Theme */
+      border-radius: 5px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .post a.read-more:hover {
+      background-color: #ff4d4d; /* Red Premium Theme */
+      color: white;
+    }
+
+    /* Thumbnail Styling */
+    .post img {
+      width: 100%; /* Full width */
+      height: auto; /* Auto height to maintain aspect ratio */
+      object-fit: contain; /* Ensures the entire image is visible */
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Individual Post Page */
+    .single-post {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .single-post h1 {
+      font-family: 'Roboto', sans-serif;
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      color: #ff4d4d; /* Red Premium Theme */
+    }
+
+    .single-post p {
+      font-family: 'Roboto', sans-serif;
+      font-size: 1em;
+      color: #000000;
+      margin-bottom: 15px;
+    }
+
+    /* Hide Thumbnail in Single Post */
+    .single-post img {
+      display: none; /* Thumbnail hidden in single post */
+    }
+
+    /* Related Posts Section */
+    .related-posts {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .related-posts h3 {
+      font-family: 'Roboto', sans-serif;
+      font-size: 1.5em;
+      margin-bottom: 20px;
+      color: #ff4d4d; /* Red Premium Theme */
+      text-align: center;
+    }
+
+    /* Related Posts Layout */
+    .related-posts .posts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px; /* Consistent spacing between cards */
+    }
+
+    .related-posts .post {
+      background-color: white;
+      flex: 1 1 calc(50% - 30px); /* Two cards per row */
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .related-posts .post:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .related-posts .post h2 {
+      font-family: 'Roboto', sans-serif;
+      font-size: 1.5em;
+      margin: 15px;
+      color: #ff4d4d; /* Red Premium Theme */
+    }
+
+    .related-posts .post p {
+      font-family: 'Roboto', sans-serif;
+      font-size: 1em;
+      color: #000000;
+      margin: 15px;
+    }
+
+    .related-posts .post a.read-more {
+      font-family: 'Roboto', sans-serif;
+      color: #ff4d4d; /* Red Premium Theme */
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      margin: 15px;
+      padding: 8px 15px;
+      border: 2px solid #ff4d4d; /* Red Premium Theme */
+      border-radius: 5px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .related-posts .post a.read-more:hover {
+      background-color: #ff4d4d; /* Red Premium Theme */
+      color: white;
+    }
+
+    /* Thumbnail Styling for Related Posts */
+    .related-posts .post img {
+      width: 100%; /* Full width */
+      height: auto; /* Auto height to maintain aspect ratio */
+      object-fit: contain; /* Ensures the entire image is visible */
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Responsive Related Posts Layout */
+    @media (max-width: 768px) {
+      .related-posts .post {
+        flex: 1 1 100%; /* One card per row on smaller screens */
+      }
+    }
+
+    /* Footer */
+    footer {
+      background-color: #ff4d4d; /* Red Premium Theme */
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      margin-top: 20px;
+    }
+
+    footer p {
+      margin: 0;
+      font-size: 0.9em;
+    }
+
+    /* 404 Error Page */
+    .error-page {
+      text-align: center;
+      padding: 50px 20px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .error-page h1 {
+      font-family: 'Roboto', sans-serif;
+      font-size: 3em;
+      color: #ff4d4d; /* Red Premium Theme */
+    }
+
+    .error-page p {
+      font-family: 'Roboto', sans-serif;
+      font-size: 1.2em;
+      margin-bottom: 20px;
+    }
+
+    .error-page a {
+      font-family: 'Roboto', sans-serif;
+      color: #ff4d4d; /* Red Premium Theme */
+      text-decoration: none;
+      font-weight: bold;
+      padding: 10px 20px;
+      border: 2px solid #ff4d4d; /* Red Premium Theme */
+      border-radius: 5px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .error-page a:hover {
+      background-color: #ff4d4d; /* Red Premium Theme */
+      color: white;
+    }
+  ]]></b:skin>
+
+  <!-- JavaScript for Hamburger Menu -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const hamburger = document.querySelector('.hamburger');
+      const nav = document.querySelector('nav');
+      const closeTab = document.querySelector('.close-tab');
+
+      // Open Menu
+      hamburger.addEventListener('click', function () {
+        nav.classList.add('open');
+        hamburger.classList.add('open');
+        document.body.style.overflow = 'hidden'; // Prevent scrolling when menu is open
+      });
+
+      // Close Menu
+      closeTab.addEventListener('click', function () {
+        nav.classList.remove('open');
+        hamburger.classList.remove('open');
+        document.body.style.overflow = ''; // Restore scrolling when menu is closed
+      });
+
+      // Close Menu When Clicking Outside
+      document.addEventListener('click', function (event) {
+        if (!nav.contains(event.target) &amp;&amp; !hamburger.contains(event.target)) {
+          nav.classList.remove('open');
+          hamburger.classList.remove('open');
+          document.body.style.overflow = ''; // Restore scrolling
+        }
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <!-- Header Section -->
+  <header>
+    <div class="hamburger">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <a href='/' class="logo"><data:blog.title/></a>
+    <nav>
+      <span class="close-tab">&amp;times;</span>
+      <ul>
+        <li><a href='/'>Home</a></li>
+        <li><a href='/about'>About</a>
+          <ul>
+            <li><a href='/about/team'>Our Team</a></li>
+            <li><a href='/about/mission'>Our Mission</a></li>
+          </ul>
+        </li>
+        <li><a href='/contact'>Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <div class='container'>
+    <div class='main-content'>
+      <b:section id='main' showaddelement='yes'>
+        <b:widget id='Blog1' locked='true' title='Blog Posts' type='Blog'>
+          <b:includable id='main'>
+            <!-- Homepage Layout -->
+            <b:if cond='data:view.isHomepage'>
+              <b:loop values='data:posts' var='post'>
+                <div class='post'>
+                  <!-- Fetch Real Image Using data:post.firstImageUrl -->
+                  <b:if cond='data:post.firstImageUrl'>
+                    <img expr:src='data:post.firstImageUrl' alt='Post Thumbnail'/>
+                  <b:else/>
+                    <img src='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgJDVT0yZi6tAeKIDNHABddnuVsbwnoQi40D2F5U7yLwwrA4pujA8n3VbtH9sg83wi7aduRkmsvXsTGfXQGfddCbHg2qCHOpGOhIqj1TbyoxSVTiNJiV8fcLsOKKD2Suzu-NhvBWYU73e8BX2mw3iH_6VkDZZ2_V_QS_nMwpwrv6MnVZKN1rvIf1UulKKLW/s1600/1000034989.jpg' alt='Placeholder Thumbnail'/>
+                  </b:if>
+                  <h2><a expr:href='data:post.url'><data:post.title/></a></h2>
+                  <p><data:post.snippet/></p>
+                  <a class='read-more' expr:href='data:post.url'>Read More</a>
+                </div>
+              </b:loop>
+            </b:if>
+
+            <!-- Individual Post Page Layout -->
+            <b:if cond='data:view.isSingleItem'>
+              <b:loop values='data:posts' var='post'>
+                <div class='single-post'>
+                  <h1><data:post.title/></h1>
+                  <b:if cond='data:post.author'>
+                    <p><strong>Author:</strong> <data:post.author/></p>
+                  </b:if>
+                  <b:if cond='data:post.date'>
+                    <p><strong>Date:</strong> <data:post.date/></p>
+                  </b:if>
+                  <p><data:post.body/></p>
+
+                  <!-- Related Posts -->
+                  <div class='related-posts'>
+                    <h3>Related Posts</h3>
+                    <div class='posts'>
+                      <b:loop values='data:relatedPosts' var='relatedPost' max='4'>
+                        <b:if cond='data:relatedPost.title'>
+                          <div class='post'>
+                            <!-- Fetch Real Image Using data:relatedPost.firstImageUrl -->
+                            <b:if cond='data:relatedPost.firstImageUrl'>
+                              <img expr:src='data:relatedPost.firstImageUrl' alt='Related Post Thumbnail'/>
+                            <b:else/>
+                              <img src='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgJDVT0yZi6tAeKIDNHABddnuVsbwnoQi40D2F5U7yLwwrA4pujA8n3VbtH9sg83wi7aduRkmsvXsTGfXQGfddCbHg2qCHOpGOhIqj1TbyoxSVTiNJiV8fcLsOKKD2Suzu-NhvBWYU73e8BX2mw3iH_6VkDZZ2_V_QS_nMwpwrv6MnVZKN1rvIf1UulKKLW/s1600/1000034989.jpg' alt='Placeholder Thumbnail'/>
+                            </b:if>
+                            <h2><a expr:href='data:relatedPost.url'><data:relatedPost.title/></a></h2>
+                            <p><data:relatedPost.snippet/></p>
+                            <a class='read-more' expr:href='data:relatedPost.url'>Read More</a>
+                          </div>
+                        </b:if>
+                      </b:loop>
+                    </div>
+                  </div>
+                </div>
+              </b:loop>
+            </b:if>
+
+            <!-- 404 Error Page -->
+            <b:if cond='data:view.isError'>
+              <div class='error-page'>
+                <h1>404</h1>
+                <p>Oops! The page you're looking for doesn't exist.</p>
+                <a href='/'>Go Back to Home</a>
+              </div>
+            </b:if>
+          </b:includable>
+        </b:widget>
+      </b:section>
+    </div>
+  </div>
+
+  <!-- Footer Section -->
+  <footer>
+    <p>&amp;copy; <data:blog.title/>. All rights reserved.</p>
+  </footer>
+</body>
+</html>
