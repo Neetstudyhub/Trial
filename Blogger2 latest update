@@ -1,0 +1,573 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html b:version='2' class='v2' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+<head>
+  <!-- Meta Tags -->
+  <meta content='width=device-width, initial-scale=1.0' name='viewport'/>
+  <title><data:blog.pageTitle/></title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&amp;display=swap" rel="stylesheet"/>
+  <!-- CSS Styles -->
+  <b:skin><![CDATA[
+    /* Reset Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      text-decoration: none; /* Remove underline globally */
+    }
+    body {
+      font-family: 'Roboto', sans-serif;
+      line-height: 1.6;
+      background-color: #ffffff;
+      color: #000000;
+      padding: 0;
+      margin: 0;
+    }
+    /* Font Size Adjustment for Different Screen Sizes */
+    body {
+      font-size: 14px; /* Default font size */
+    }
+    @media (max-width: 480px) {
+      body {
+        font-size: 12px; /* Smaller font size for mobile */
+      }
+    }
+    @media (min-width: 481px) and (max-width: 767px) {
+      body {
+        font-size: 14px; /* Medium font size for tablets */
+      }
+    }
+    @media (min-width: 768px) {
+      body {
+        font-size: 16px; /* Larger font size for desktops */
+      }
+    }
+    /* Fixed Header */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #0000ff; /* Blue Premium Theme */
+      color: white;
+      padding: 10px 20px;
+      position: fixed; /* Fixed at the top */
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000; /* Ensure header stays above other elements */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add shadow for better visibility */
+    }
+    /* Logo */
+    .logo {
+      font-family: 'Roboto', sans-serif;
+      font-size: 1.5em;
+      text-align: center;
+      color: white;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    /* Hamburger Menu Icon */
+    .hamburger {
+      display: flex; /* Visible by default for smaller screens */
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: white;
+      transition: all 0.3s ease;
+    }
+    /* Cross Icon */
+    .hamburger.open div:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .hamburger.open div:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.open div:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+    /* Navigation Menu */
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: transparent;
+      height: auto;
+      width: auto;
+      box-shadow: none;
+    }
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    nav ul li {
+      position: relative;
+    }
+    nav ul li a {
+      font-family: 'Roboto', sans-serif;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 8px 15px;
+      display: block;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+    nav ul li a:hover {
+      background-color: #0000cc; /* Darker Blue on Hover */
+    }
+    /* Submenu Indicator Icon */
+    nav ul li.has-submenu > a::after {
+      content: '+';
+      margin-left: 25px;
+      font-size: 12px;
+      color: white;
+    }
+    /* Submenu */
+    nav ul li ul {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #0000ff;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      z-index: 100;
+      min-width: 200px;
+    }
+    nav ul li ul li {
+      margin-bottom: 5px;
+    }
+    nav ul li ul li:last-child {
+      margin-bottom: 0;
+    }
+    nav ul li:hover ul {
+      display: block;
+    }
+    /* Mobile Navigation */
+    @media (max-width: 767px) {
+      nav {
+        position: fixed;
+        top: 0;
+        left: -250px; /* Initially hidden off-screen */
+        width: 250px;
+        height: 100%;
+        background-color: #0000ff;
+        padding: 20px;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+        transition: left 0.3s ease-in-out;
+        z-index: 1000;
+      }
+      nav.open {
+        left: 0; /* Slide in */
+      }
+      nav ul {
+        flex-direction: column;
+        gap: 15px;
+      }
+      nav ul li ul {
+        position: static;
+        display: none;
+        background-color: transparent;
+        box-shadow: none;
+      }
+      nav ul li:hover ul {
+        display: block;
+      }
+    }
+    /* Close Tab */
+    .close-tab {
+      display: none;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 1.5em;
+      color: white;
+      cursor: pointer;
+    }
+    @media (max-width: 767px) {
+      .close-tab {
+        display: block;
+      }
+    }
+    /* Hide Hamburger Menu for Desktop */
+    @media (min-width: 768px) {
+      .hamburger {
+        display: none;
+      }
+    }
+    /* Main Layout */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 20px;
+      margin-top: 80px; /* Create space for fixed header */
+    }
+    /* Cards Section */
+    .cards-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      box-sizing: border-box;
+    }
+    @media (max-width: 480px) {
+      .cards-section { grid-template-columns: 1fr; }
+    }
+    @media (min-width: 481px) and (max-width: 1024px) {
+      .cards-section { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 1025px) {
+      .cards-section { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (min-width: 1201px) {
+      .cards-section { gap: 30px; }
+    }
+    /* Card Styles */
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    }
+    /* Image Container */
+    .card-image {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%; /* 16:9 ratio */
+      overflow: hidden;
+      background: #ccc;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+    }
+    .card-image img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    /* Card Content */
+    .card-content {
+      padding: 15px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    /* Top Labels */
+    .top-labels {
+      margin-bottom: 8px;
+    }
+    .top-labels .label {
+      display: inline-block;
+      background: #1b76dc;
+      color: #fff;
+      padding: 3px 8px;
+      border-radius: 8px;
+      font-size: 0.8em;
+      margin-right: 5px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+    .top-labels .label:hover {
+      background-color: #1152a3;
+    }
+    @media (min-width: 481px) and (max-width: 1024px) {
+      .top-labels .label {
+        font-size: 0.85em;
+        padding: 4px 10px;
+      }
+    }
+    @media (min-width: 1025px) {
+      .top-labels .label {
+        font-size: 0.9em;
+        padding: 5px 12px;
+      }
+    }
+    /* Card Title */
+    .card-content h3 {
+      font-family: 'Roboto Slab', serif;
+      font-size: 1.3em;
+      margin: 10px 0;
+    }
+    /* Description Styling */
+    .post-description {
+      font-size: 0.95em;
+      line-height: 1.5;
+      margin-bottom: 15px;
+      flex: 1;
+    }
+    /* Bottom Meta */
+    .bottom-meta {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+    }
+    .date-logo img {
+      width: 20px;
+      height: auto;
+      margin-right: 5px;
+      border-radius: 50%;
+    }
+    .published-date {
+      font-size: 0.9em;
+      color: #777;
+    }
+    /* Responsive Text and Label Sizes */
+    @media (max-width: 480px) {
+      h1 { font-size: 2em; }
+      .card-content h3 { font-size: 1.1em; }
+      .post-description { font-size: 0.9em; }
+      .published-date { font-size: 0.8em; }
+    }
+    @media (min-width: 481px) and (max-width: 1024px) {
+      h1 { font-size: 2.3em; }
+      .card-content h3 { font-size: 1.2em; }
+      .post-description { font-size: 0.92em; }
+      .published-date { font-size: 0.85em; }
+    }
+    @media (min-width: 1025px) {
+      h1 { font-size: 2.5em; }
+      .card-content h3 { font-size: 1.3em; }
+      .post-description { font-size: 0.95em; }
+      .published-date { font-size: 0.9em; }
+    }
+    @media (min-width: 1201px) {
+      .container { padding: 60px 40px; }
+      h1 { font-size: 2.7em; }
+      .card-content h3 { font-size: 1.35em; }
+      .post-description { font-size: 1em; }
+      .published-date { font-size: 1em; }
+    }
+    /* Footer */
+    footer {
+      background-color: #0000ff; /* Blue Premium Theme */
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      margin-top: 20px;
+    }
+    footer p {
+      margin: 0;
+      font-size: 0.9em;
+    }
+  ]]></b:skin>
+</head>
+<body>
+  <!-- Header Section -->
+  <header>
+    <div class="hamburger">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <a href='/' class="logo"><data:blog.title/></a>
+    <nav>
+      <span class="close-tab">&amp;times;</span>
+      <ul>
+        <li><a href='/'>Home</a></li>
+        <li class="has-submenu"><a href='/about'>About</a>
+          <ul>
+            <li class="has-submenu"><a href='/about/team'>Our Team</a>
+              <ul>
+                <li><a href='/about/team/komal'>Komal</a></li>
+                <li><a href='/about/team/varun'>Varun</a></li>
+              </ul>
+            </li>
+            <li><a href='/about/mission'>Our Mission</a></li>
+          </ul>
+        </li>
+        <li><a href='/contact'>Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+  <!-- Main Content -->
+  <div class='container'>
+    <div class='main-content'>
+      <b:section id='main' showaddelement='yes'>
+        <b:widget id='Blog1' locked='true' title='Blog Posts' type='Blog'>
+          <b:includable id='main'>
+            <!-- Homepage Layout -->
+            <b:if cond='data:view.isHomepage'>
+              <div class='cards-section'>
+                <b:loop values='data:posts' var='post'>
+                  <div class='card'>
+                    <!-- Thumbnail -->
+                    <div class='card-image'>
+                      <a expr:href='data:post.url'>
+                        <b:if cond='data:post.firstImageUrl'>
+                          <img expr:src='data:post.firstImageUrl' alt='Post Thumbnail'/>
+                        <b:else/>
+                          <img src='https://via.placeholder.com/300x150' alt='Placeholder Thumbnail'/>
+                        </b:if>
+                      </a>
+                    </div>
+                    <div class='card-content'>
+                      <!-- Top Labels -->
+                      <p class='top-labels'>
+                        <b:if cond='data:post.labels'>
+                          <b:loop values='data:post.labels' var='label'>
+                            <a class='label' expr:href='data:label.url'><data:label.name/></a>
+                          </b:loop>
+                        </b:if>
+                      </p>
+                      <!-- Title -->
+                      <a expr:href='data:post.url'>
+                        <h3><data:post.title/></h3>
+                      </a>
+                      <!-- Description -->
+                      <p class='post-description'><data:post.snippet/></p>
+                      <!-- Bottom Meta -->
+                      <div class='bottom-meta'>
+                        <div class='date-logo'>
+                          <img src='https://via.placeholder.com/20' alt='Logo'/> <!-- Replace with your logo URL -->
+                        </div>
+                        <span class='published-date'>
+                          <b:if cond='data:post.author'>By <data:post.author/></b:if>
+                          <b:if cond='data:post.date'> | <data:post.date/></b:if>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </b:loop>
+              </div>
+            </b:if>
+            <!-- Labels Page Layout -->
+            <b:if cond='data:view.isLabelSearch'>
+              <div class='labels-header'>
+                <h2>Showing results for: <data:blog.searchLabel/></h2>
+                <p><b:eval expr='data:posts.length'/> posts found</p>
+              </div>
+              <b:if cond='data:posts.length == 0'>
+                <div class='error-page'>
+                  <h1>No Results Found</h1>
+                  <p>Sorry, there are no posts under this label.</p>
+                  <a href='/'>Go Back to Home</a>
+                </div>
+              <b:else/>
+                <div class='cards-section'>
+                  <b:loop values='data:posts' var='post'>
+                    <div class='card'>
+                      <!-- Thumbnail -->
+                      <div class='card-image'>
+                        <a expr:href='data:post.url'>
+                          <b:if cond='data:post.firstImageUrl'>
+                            <img expr:src='data:post.firstImageUrl' alt='Post Thumbnail'/>
+                          <b:else/>
+                            <img src='https://via.placeholder.com/300x150' alt='Placeholder Thumbnail'/>
+                          </b:if>
+                        </a>
+                      </div>
+                      <div class='card-content'>
+                        <!-- Top Labels -->
+                        <p class='top-labels'>
+                          <b:if cond='data:post.labels'>
+                            <b:loop values='data:post.labels' var='label'>
+                              <a class='label' expr:href='data:label.url'><data:label.name/></a>
+                            </b:loop>
+                          </b:if>
+                        </p>
+                        <!-- Title -->
+                        <a expr:href='data:post.url'>
+                          <h3><data:post.title/></h3>
+                        </a>
+                        <!-- Description -->
+                        <p class='post-description'><data:post.snippet/></p>
+                        <!-- Bottom Meta -->
+                        <div class='bottom-meta'>
+                          <div class='date-logo'>
+                            <img src='https://via.placeholder.com/20' alt='Logo'/> <!-- Replace with your logo URL -->
+                          </div>
+                          <span class='published-date'>
+                            <b:if cond='data:post.author'>By <data:post.author/></b:if>
+                            <b:if cond='data:post.date'> | <data:post.date/></b:if>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </b:loop>
+                </div>
+              </b:if>
+            </b:if>
+            <!-- Individual Post Page Layout -->
+            <b:if cond='data:view.isSingleItem'>
+              <b:loop values='data:posts' var='post'>
+                <div class='single-post-header'>
+                  <!-- Breadcrumbs -->
+                  <p class='breadcrumbs'>
+                    <a href='/'>Home</a> >
+                    <b:if cond='data:post.labels'>
+                      <b:loop values='data:post.labels' var='label'>
+                        <b:if cond='data:label.isFirst'>
+                          <a expr:href='data:label.url'><data:label.name/></a> >
+                        </b:if>
+                      </b:loop>
+                    </b:if>
+                    <span><data:post.title/></span>
+                  </p>
+                  <!-- Title -->
+                  <h1><data:post.title/></h1>
+                  <!-- Meta Information -->
+                  <p class='meta'>
+                    <img src='https://via.placeholder.com/20' alt='Logo'/> <!-- Replace with your logo URL -->
+                    <b:if cond='data:post.author'>By <data:post.author/></b:if>
+                    <b:if cond='data:post.date'> | <data:post.date/></b:if>
+                  </p>
+                </div>
+                <!-- Post Content -->
+                <div class='post-content-card'>
+                  <p><data:post.body/></p>
+                  <!-- Tags -->
+                  <p class='tags'>
+                    <span>Tags:</span>
+                    <b:if cond='data:post.labels'>
+                      <b:loop values='data:post.labels' var='label'>
+                        <b:if cond='data:label.isLast'>
+                          <a expr:href='data:label.url'><data:label.name/></a>
+                        <b:else/>
+                          <a expr:href='data:label.url'><data:label.name/></a>,
+                        </b:if>
+                      </b:loop>
+                    </b:if>
+                  </p>
+                </div>
+              </b:loop>
+            </b:if>
+            <!-- 404 Error Page -->
+            <b:if cond='data:view.isError'>
+              <div class='error-page'>
+                <h1>404</h1>
+                <p>Oops! The page you're looking for doesn't exist.</p>
+                <a href='/'>Go Back to Home</a>
+              </div>
+            </b:if>
+          </b:includable>
+        </b:widget>
+      </b:section>
+    </div>
+  </div>
+  <!-- Footer Section -->
+  <footer>
+    <p>&amp;copy; <data:blog.title/>. All rights reserved.</p>
+  </footer>
+</body>
+</html>
