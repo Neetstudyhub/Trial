@@ -7,7 +7,7 @@
   <title><data:blog.pageTitle/></title>
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet">
 
   <!-- CSS Styles -->
   <b:skin><![CDATA[
@@ -47,13 +47,6 @@
       color: white;
       cursor: pointer;
       text-decoration: none;
-    }
-
-    @media (max-width: 767px) {
-      .logo {
-        text-align: center; /* Center logo on mobile */
-        margin: 0 auto; /* Center align */
-      }
     }
 
     @media (min-width: 768px) {
@@ -223,7 +216,7 @@
       padding: 0 15px; /* Small padding for mobile */
     }
 
-    /* Blog Posts (Homepage) */
+    /* Blog Posts (Homepage & Labels Page) */
     .post-cards {
       display: flex;
       flex-wrap: wrap;
@@ -248,6 +241,11 @@
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     }
 
+    .post-card a {
+      text-decoration: none; /* Remove underline */
+      color: inherit; /* Inherit text color */
+    }
+
     .post-card img {
       width: 100%; /* Full width */
       height: 150px; /* Fixed height for thumbnail */
@@ -255,7 +253,7 @@
       border-top-left-radius: 8px;
       border-top-right-radius: 8px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      loading: lazy; /* Lazy load images */
+      cursor: pointer; /* Pointer cursor on hover */
     }
 
     .post-card .content {
@@ -272,7 +270,7 @@
       margin-bottom: 10px;
       color: #ff4d4d; /* Red Premium Theme */
       text-decoration: none; /* Remove underline */
-      cursor: pointer; /* Make title clickable */
+      cursor: pointer; /* Pointer cursor on hover */
     }
 
     .post-card p.meta {
@@ -329,33 +327,47 @@
       }
     }
 
-    /* Load More Button */
-    .load-more {
-      display: block;
-      margin: 30px auto;
-      padding: 10px 20px;
-      background-color: #ff4d4d; /* Red Premium Theme */
-      color: white;
-      text-align: center;
-      text-decoration: none;
-      border-radius: 5px;
+    /* Individual Post/Page Layout */
+    .single-post {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      margin: 20px auto;
+      max-width: 800px;
+    }
+
+    .single-post h1 {
+      font-family: 'Roboto', sans-serif;
+      font-size: 2em;
+      color: #ff4d4d; /* Red Premium Theme */
+      margin-bottom: 20px;
+    }
+
+    .single-post p.meta {
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.9em;
+      color: #666666;
+      margin-bottom: 20px;
+    }
+
+    .single-post p.tags {
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.9em;
+      color: #ff4d4d; /* Red Premium Theme */
+      margin-bottom: 20px;
+    }
+
+    .single-post p.tags a::before {
+      content: '#'; /* Add # before tags */
+    }
+
+    .single-post p {
       font-family: 'Roboto', sans-serif;
       font-size: 1em;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    .load-more:hover {
-      background-color: #e60000; /* Darker Red on Hover */
-    }
-
-    /* Label Page Heading */
-    .label-page-heading {
-      font-family: 'Roboto', sans-serif;
-      font-size: 1.5em;
-      text-align: center;
+      line-height: 1.6;
+      color: #000000;
       margin-bottom: 20px;
-      color: #ff4d4d; /* Red Premium Theme */
     }
 
     /* Footer */
@@ -409,112 +421,10 @@
       color: white;
     }
   ]]></b:skin>
-  </head>
 
-  <!-- JavaScript for Load More Functionality -->
+  <!-- JavaScript for Hamburger Menu -->
   <script>
-    let currentPage = 1;
-    const postsPerPage = 10;
-
-    // Load More Posts on Homepage
-    async function loadMorePostsHome() {
-      try {
-        const response = await fetch(`/feeds/posts/default?start-index=${currentPage * postsPerPage + 1}&amp;max-results=${postsPerPage}&amp;alt=json`);
-        const data = await response.json();
-
-        if (data.feed.entry &amp;&amp; data.feed.entry.length > 0) {
-          const container = document.querySelector('.post-cards');
-          data.feed.entry.forEach(post => {
-            const title = post.title.$t;
-            const url = post.link.find(link => link.rel === 'alternate').href;
-            const thumbnail = post.media$thumbnail ? post.media$thumbnail.url : 'https://via.placeholder.com/300';
-            const author = post.author[0].name.$t;
-            const date = new Date(post.published.$t).toLocaleDateString();
-
-            const card = document.createElement('div');
-            card.classList.add('post-card');
-            card.innerHTML = `
-              <img src="${thumbnail}" alt="Thumbnail" loading="lazy"/>
-              <div class="content">
-                <h2><a href="${url}">${title}</a></h2>
-                <p class="meta">By ${author} | ${date}</p>
-                <p class="tags">
-                  ${post.category.map(cat => `<a href="/search/label/${cat.term}">#${cat.term}</a>`).join(' ')}
-                </p>
-              </div>
-            `;
-            container.appendChild(card);
-          });
-          currentPage++;
-        } else {
-          document.querySelector('.load-more').style.display = 'none';
-          const message = document.createElement('p');
-          message.textContent = "That's all!";
-          message.style.textAlign = 'center';
-          message.style.color = '#ff4d4d';
-          document.querySelector('.container').appendChild(message);
-        }
-      } catch (error) {
-        console.error('Error loading posts:', error);
-      }
-    }
-
-    // Load More Posts on Label Page
-    async function loadMorePostsLabel() {
-      try {
-        const label = window.location.href.split('/').pop(); // Extract label from URL
-        const response = await fetch(`/feeds/posts/default/-/${label}?start-index=${currentPage * postsPerPage + 1}&amp;max-results=${postsPerPage}&amp;alt=json`);
-        const data = await response.json();
-
-        if (data.feed.entry &amp;&amp; data.feed.entry.length > 0) {
-          const container = document.querySelector('.post-cards');
-          data.feed.entry.forEach(post => {
-            const title = post.title.$t;
-            const url = post.link.find(link => link.rel === 'alternate').href;
-            const thumbnail = post.media$thumbnail ? post.media$thumbnail.url : 'https://via.placeholder.com/300';
-            const author = post.author[0].name.$t;
-            const date = new Date(post.published.$t).toLocaleDateString();
-
-            const card = document.createElement('div');
-            card.classList.add('post-card');
-            card.innerHTML = `
-              <img src="${thumbnail}" alt="Thumbnail" loading="lazy"/>
-              <div class="content">
-                <h2><a href="${url}">${title}</a></h2>
-                <p class="meta">By ${author} | ${date}</p>
-                <p class="tags">
-                  ${post.category.map(cat => `<a href="/search/label/${cat.term}">#${cat.term}</a>`).join(' ')}
-                </p>
-              </div>
-            `;
-            container.appendChild(card);
-          });
-          currentPage++;
-        } else {
-          document.querySelector('.load-more').style.display = 'none';
-          const message = document.createElement('p');
-          message.textContent = "That's all!";
-          message.style.textAlign = 'center';
-          message.style.color = '#ff4d4d';
-          document.querySelector('.container').appendChild(message);
-        }
-      } catch (error) {
-        console.error('Error loading posts:', error);
-      }
-    }
-
-    // Show Load More Button Only if Needed
-    document.addEventListener('DOMContentLoaded', () => {
-      const totalPosts = parseInt('<data:blog.totalPosts/>', 10);
-      const loadMoreButton = document.querySelector('.load-more');
-
-      if (totalPosts > postsPerPage) {
-        loadMoreButton.style.display = 'block';
-      } else {
-        loadMoreButton.style.display = 'none';
-      }
-    });
-      document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
       const hamburger = document.querySelector('.hamburger');
       const nav = document.querySelector('nav');
       const closeTab = document.querySelector('.close-tab');
@@ -535,15 +445,15 @@
 
       // Close Menu When Clicking Outside
       document.addEventListener('click', function (event) {
-        if (!nav.contains(event.target) &amp;&amp; !hamburger.contains(event.target)) {
+        if (!nav.contains(event.target) && !hamburger.contains(event.target)) {
           nav.classList.remove('open');
           hamburger.classList.remove('open');
           document.body.style.overflow = ''; // Restore scrolling
         }
       });
-    });          
+    });
   </script>
-
+</head>
 
 <body>
   <!-- Header Section -->
@@ -586,14 +496,18 @@
                 <b:loop values='data:posts' var='post'>
                   <div class='post-card'>
                     <!-- Thumbnail -->
-                    <b:if cond='data:post.firstImageUrl'>
-                      <img expr:src='data:post.firstImageUrl' alt='Post Thumbnail' loading='lazy'/>
-                    <b:else/>
-                      <img src='https://via.placeholder.com/300' alt='Placeholder Thumbnail' loading='lazy'/>
-                    </b:if>
+                    <a expr:href='data:post.url'>
+                      <b:if cond='data:post.firstImageUrl'>
+                        <img expr:src='data:post.firstImageUrl' alt='Post Thumbnail'/>
+                      <b:else/>
+                        <img src='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgJDVT0yZi6tAeKIDNHABddnuVsbwnoQi40D2F5U7yLwwrA4pujA8n3VbtH9sg83wi7aduRkmsvXsTGfXQGfddCbHg2qCHOpGOhIqj1TbyoxSVTiNJiV8fcLsOKKD2Suzu-NhvBWYU73e8BX2mw3iH_6VkDZZ2_V_QS_nMwpwrv6MnVZKN1rvIf1UulKKLW/s1600/1000034989.jpg' alt='Placeholder Thumbnail'/>
+                      </b:if>
+                    </a>
                     <div class='content'>
                       <!-- Title -->
-                      <h2><a expr:href='data:post.url'><data:post.title/></a></h2>
+                      <a expr:href='data:post.url'>
+                        <h2><data:post.title/></h2>
+                      </a>
                       <!-- Meta Information -->
                       <p class='meta'>
                         <b:if cond='data:post.author'>By <data:post.author/></b:if>
@@ -611,7 +525,43 @@
                   </div>
                 </b:loop>
               </div>
-              <button class='load-more' onclick='loadMorePostsHome()'>Load More</button>
+            </b:if>
+
+            <!-- Labels Page Layout -->
+            <b:if cond='data:view.isLabelSearch'>
+              <div class='post-cards'>
+                <b:loop values='data:posts' var='post'>
+                  <div class='post-card'>
+                    <!-- Thumbnail -->
+                    <a expr:href='data:post.url'>
+                      <b:if cond='data:post.firstImageUrl'>
+                        <img expr:src='data:post.firstImageUrl' alt='Post Thumbnail'/>
+                      <b:else/>
+                        <img src='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgJDVT0yZi6tAeKIDNHABddnuVsbwnoQi40D2F5U7yLwwrA4pujA8n3VbtH9sg83wi7aduRkmsvXsTGfXQGfddCbHg2qCHOpGOhIqj1TbyoxSVTiNJiV8fcLsOKKD2Suzu-NhvBWYU73e8BX2mw3iH_6VkDZZ2_V_QS_nMwpwrv6MnVZKN1rvIf1UulKKLW/s1600/1000034989.jpg' alt='Placeholder Thumbnail'/>
+                      </b:if>
+                    </a>
+                    <div class='content'>
+                      <!-- Title -->
+                      <a expr:href='data:post.url'>
+                        <h2><data:post.title/></h2>
+                      </a>
+                      <!-- Meta Information -->
+                      <p class='meta'>
+                        <b:if cond='data:post.author'>By <data:post.author/></b:if>
+                        <b:if cond='data:post.date'> | <data:post.date/></b:if>
+                      </p>
+                      <!-- Tags/Labels -->
+                      <p class='tags'>
+                        <b:if cond='data:post.labels'>
+                          <b:loop values='data:post.labels' var='label'>
+                            <a expr:href='data:label.url'><data:label.name/></a>
+                          </b:loop>
+                        </b:if>
+                      </p>
+                    </div>
+                  </div>
+                </b:loop>
+              </div>
             </b:if>
 
             <!-- Individual Post Page Layout -->
@@ -634,79 +584,8 @@
                   </p>
                   <!-- Post Content -->
                   <p><data:post.body/></p>
-
-                  <!-- Related Posts -->
-                  <div class='related-posts'>
-                    <h3>Related Posts</h3>
-                    <div class='post-cards'>
-                      <b:loop values='data:relatedPosts' var='relatedPost' max='4'>
-                        <b:if cond='data:relatedPost.title'>
-                          <div class='post-card'>
-                            <!-- Thumbnail -->
-                            <b:if cond='data:relatedPost.firstImageUrl'>
-                              <img expr:src='data:relatedPost.firstImageUrl' alt='Related Post Thumbnail' loading='lazy'/>
-                            <b:else/>
-                              <img src='https://via.placeholder.com/300' alt='Placeholder Thumbnail' loading='lazy'/>
-                            </b:if>
-                            <div class='content'>
-                              <!-- Title -->
-                              <h2><a expr:href='data:relatedPost.url'><data:relatedPost.title/></a></h2>
-                              <!-- Meta Information -->
-                              <p class='meta'>
-                                <b:if cond='data:relatedPost.author'>By <data:relatedPost.author/></b:if>
-                                <b:if cond='data:relatedPost.date'> | <data:relatedPost.date/></b:if>
-                              </p>
-                              <!-- Tags/Labels -->
-                              <p class='tags'>
-                                <b:if cond='data:relatedPost.labels'>
-                                  <b:loop values='data:relatedPost.labels' var='label'>
-                                    <a expr:href='data:label.url'><data:label.name/></a>
-                                  </b:loop>
-                                </b:if>
-                              </p>
-                            </div>
-                          </div>
-                        </b:if>
-                      </b:loop>
-                    </div>
-                  </div>
                 </div>
               </b:loop>
-            </b:if>
-
-            <!-- Label Page Layout -->
-            <b:if cond='data:view.isLabelSearch'>
-              <h2 class='label-page-heading'>Posts Tagged: <data:blog.searchLabel/></h2>
-              <div class='post-cards'>
-                <b:loop values='data:posts' var='post'>
-                  <div class='post-card'>
-                    <!-- Thumbnail -->
-                    <b:if cond='data:post.firstImageUrl'>
-                      <img expr:src='data:post.firstImageUrl' alt='Post Thumbnail' loading='lazy'/>
-                    <b:else/>
-                      <img src='https://via.placeholder.com/300' alt='Placeholder Thumbnail' loading='lazy'/>
-                    </b:if>
-                    <div class='content'>
-                      <!-- Title -->
-                      <h2><a expr:href='data:post.url'><data:post.title/></a></h2>
-                      <!-- Meta Information -->
-                      <p class='meta'>
-                        <b:if cond='data:post.author'>By <data:post.author/></b:if>
-                        <b:if cond='data:post.date'> | <data:post.date/></b:if>
-                      </p>
-                      <!-- Tags/Labels -->
-                      <p class='tags'>
-                        <b:if cond='data:post.labels'>
-                          <b:loop values='data:post.labels' var='label'>
-                            <a expr:href='data:label.url'><data:label.name/></a>
-                          </b:loop>
-                        </b:if>
-                      </p>
-                    </div>
-                  </div>
-                </b:loop>
-              </div>
-              <button class='load-more' onclick='loadMorePostsLabel()'>Load More</button>
             </b:if>
 
             <!-- 404 Error Page -->
@@ -718,7 +597,7 @@
               </div>
             </b:if>
           </b:includable>
-                </b:widget>
+        </b:widget>
       </b:section>
     </div>
   </div>
