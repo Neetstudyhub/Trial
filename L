@@ -1,0 +1,797 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html b:version='2' class='v2' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+<head>
+  <!-- Meta Tags -->
+  <meta content='width=device-width, initial-scale=1.0' name='viewport'/>
+  <title><data:blog.pageTitle/></title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
+
+  <!-- CSS Styles -->
+  <b:skin><![CDATA[
+    /* Reset Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      text-decoration: none; /* Remove underline globally */
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      line-height: 1.6;
+      background-color: #ffffff;
+      color: #000000;
+      padding: 0;
+      margin: 0;
+    }
+
+    /* Font Size Adjustment for Different Screen Sizes */
+    body {
+      font-size: 14px; /* Default font size */
+    }
+
+    @media (max-width: 480px) {
+      body {
+        font-size: 12px; /* Smaller font size for mobile */
+      }
+    }
+
+    @media (min-width: 481px) and (max-width: 767px) {
+      body {
+        font-size: 14px; /* Medium font size for tablets */
+      }
+    }
+
+    @media (min-width: 768px) {
+      body {
+        font-size: 16px; /* Larger font size for desktops */
+      }
+    }
+
+    /* Fixed Header */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #0000ff; /* Blue Premium Theme */
+      color: white;
+      padding: 10px 20px;
+      position: fixed; /* Fixed at the top */
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000; /* Ensure header stays above other elements */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add shadow for better visibility */
+    }
+
+    /* Logo */
+    .logo {
+      font-family: 'Roboto', sans-serif;
+      font-size: 1.5em;
+      text-align: left;
+      color: white;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    /* Search Bar */
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .search-bar input[type="text"] {
+      padding: 8px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+      width: 150px; /* Default width for mobile */
+      transition: width 0.3s ease;
+    }
+
+    .search-bar input[type="text"]:focus {
+      outline: none;
+      width: 250px; /* Expand width on focus */
+    }
+
+    .search-bar button {
+      background-color: #ffffff;
+      color: #0000ff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background-color 0.3s ease;
+    }
+
+    .search-bar button:hover {
+      background-color: #0000cc; /* Darker blue on hover */
+      color: white;
+    }
+
+    /* Hamburger Menu Icon */
+    .hamburger {
+      display: flex; /* Visible by default for smaller screens */
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: white;
+      transition: all 0.3s ease;
+    }
+
+    /* Cross Icon */
+    .hamburger.open div:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .hamburger.open div:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.open div:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    /* Navigation Menu */
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: transparent;
+      height: auto;
+      width: auto;
+      box-shadow: none;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    nav ul li {
+      position: relative;
+    }
+
+    nav ul li a {
+      font-family: 'Roboto', sans-serif;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 8px 15px;
+      display: block;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      background-color: #0000cc; /* Darker Blue on Hover */
+    }
+
+    /* Submenu Indicator Icon */
+    nav ul li.has-submenu > a::after {
+      content: '+';
+      margin-left: 5px;
+      font-size: 12px;
+      color: white;
+    }
+
+    /* Submenu */
+    nav ul li ul {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #0000ff;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      z-index: 100;
+      min-width: 200px;
+    }
+
+    nav ul li ul li {
+      margin-bottom: 5px;
+    }
+
+    nav ul li ul li:last-child {
+      margin-bottom: 0;
+    }
+
+    nav ul li:hover ul {
+      display: block;
+    }
+
+    /* Mobile Navigation */
+    @media (max-width: 767px) {
+      nav {
+        position: fixed;
+        top: 0;
+        left: -250px; /* Initially hidden off-screen */
+        width: 250px;
+        height: 100%;
+        background-color: #0000ff;
+        padding: 20px;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+        transition: left 0.3s ease-in-out;
+        z-index: 1000;
+      }
+
+      nav.open {
+        left: 0; /* Slide in */
+      }
+
+      nav ul {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      nav ul li ul {
+        position: static;
+        display: none;
+        background-color: transparent;
+        box-shadow: none;
+      }
+
+      nav ul li:hover ul {
+        display: block;
+      }
+    }
+
+    /* Close Tab */
+    .close-tab {
+      display: none;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 1.5em;
+      color: white;
+      cursor: pointer;
+    }
+
+    @media (max-width: 767px) {
+      .close-tab {
+        display: block;
+      }
+    }
+
+    /* Hide Hamburger Menu for Desktop */
+    @media (min-width: 768px) {
+      .hamburger {
+        display: none;
+      }
+    }
+
+    /* Main Layout */
+    .container {
+      max-width: 100%; /* Full width */
+      margin: 0 auto;
+      padding: 0; /* Zero padding for full width */
+      margin-top: 80px; /* Create space for fixed header */
+    }
+
+    /* Home Cards */
+    .home-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .home-card {
+      background-color: white;
+      width: calc(100% - 30px); /* Full width for mobile */
+      height: auto; /* Auto height to fit content */
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      margin: 0 auto; /* Center cards */
+      z-index: 1; /* Reduced z-index */
+    }
+
+    .home-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .home-card img {
+      width: 100%; /* Full width */
+      height: 150px; /* Fixed height for thumbnail */
+      object-fit: cover; /* Ensures image fits without distortion */
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      cursor: pointer; /* Pointer cursor on hover */
+    }
+
+    .home-card .content {
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* Tags as Buttons */
+    .home-card p.tags {
+      margin: 0;
+      display: flex;
+      gap: 5px;
+    }
+
+    .home-card p.tags a {
+      background-color: #ff4d4d; /* Red Premium Theme */
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.8em;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .home-card p.tags a:hover {
+      background-color: #cc0000; /* Darker red on hover */
+    }
+
+    /* Title */
+    .home-card h2 {
+      font-family: 'Roboto', sans-serif;
+      font-size: 1.2em;
+      margin: 0;
+      color: #0000ff; /* Blue Premium Theme */
+      text-decoration: none; /* Remove underline */
+      cursor: pointer; /* Pointer cursor on hover */
+    }
+
+    /* Meta Information */
+    .home-card p.meta {
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.9em;
+      color: #666666;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .home-card p.meta img {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%; /* Circular logo */
+    }
+
+    /* Responsive Card Layout */
+    @media (min-width: 482px) and (max-width: 767px) {
+      .home-card {
+        width: calc(46% - 15px); /* Two cards per row with gap */
+      }
+
+      .container {
+        padding: 0 20px; /* Add padding for tablets */
+      }
+    }
+
+    @media (min-width: 768px) and (max-width: 1080px) {
+      .home-card {
+        width: calc(30% - 20px); /* Three cards per row */
+      }
+
+      .container {
+        padding: 0 30px; /* Add padding for desktop */
+      }
+    }
+
+    @media (min-width: 1081px) {
+      .home-card {
+        width: calc(30% - 40px); /* Three cards per row with extra space */
+      }
+
+      .container {
+        max-width: 1200px; /* Limit container width */
+        margin: 0 auto;
+        padding: 0 50px; /* Add extra padding for larger screens */
+      }
+    }
+
+    /* Individual Post/Page Layout */
+    .single-post-header {
+      background-color: transparent;
+      padding: 10px 20px; /* Reduced padding for post page */
+      text-align: left;
+      margin-top: 20px; /* Reduced space between header and breadcrumbs */
+    }
+
+    .single-post-header .breadcrumbs {
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.9em;
+      color: #666666;
+      margin-bottom: 10px;
+    }
+
+    .single-post-header h1 {
+      font-family: 'Roboto', sans-serif;
+      font-size: 2em;
+      color: #0000ff; /* Blue Premium Theme */
+      margin-bottom: 10px;
+    }
+
+    .single-post-header p.meta {
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.9em;
+      color: #666666;
+      margin-bottom: 20px;
+    }
+
+    .post-content-card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      padding: 30px; /* Increased padding for internal spacing */
+      margin: 0; /* Zero margin to touch edges of website */
+    }
+
+    .post-content-card p,
+    .post-content-card img {
+      font-family: 'Roboto', sans-serif;
+      font-size: 1.1em; /* Increased font size for better readability */
+      line-height: 1.8; /* Improved line height for spacing */
+      color: #000000;
+      margin-bottom: 20px;
+      max-width: 100%; /* Ensure images don't overflow */
+    }
+
+    .post-content-card img {
+      width: 100%; /* Full width */
+      height: auto; /* Maintain aspect ratio */
+      border-radius: 8px; /* Curved corners */
+      object-fit: cover; /* Ensures images fit properly */
+    }
+
+    .post-content-card p.tags {
+      font-family: 'Roboto', sans-serif;
+      font-size: 1em;
+      color: #0000ff; /* Blue Premium Theme */
+      font-weight: bold;
+      margin-top: 20px;
+    }
+
+    .post-content-card p.tags span {
+      font-weight: normal;
+      margin-right: 5px;
+    }
+
+    /* Tablet View */
+    @media (min-width: 482px) and (max-width: 767px) {
+      .single-post-header .breadcrumbs {
+        font-size: 1em;
+      }
+
+      .single-post-header h1 {
+        font-size: 2.2em;
+      }
+
+      .single-post-header p.meta {
+        font-size: 1em;
+      }
+
+      .post-content-card {
+        padding: 25px; /* Slightly reduced padding for tablets */
+      }
+    }
+
+    /* Desktop View */
+    @media (min-width: 768px) {
+      .container {
+        display: flex;
+        gap: 20px;
+      }
+
+      .single-post-header .breadcrumbs {
+        font-size: 1.1em;
+      }
+
+      .single-post-header h1 {
+        font-size: 2.5em;
+      }
+
+      .single-post-header p.meta {
+        font-size: 1.1em;
+      }
+
+      .post-content-card {
+        flex: 1; /* Content takes up full width */
+        padding: 30px; /* Consistent padding for desktop */
+      }
+    }
+
+    /* Error Page */
+    .error-page {
+      text-align: center;
+      padding: 50px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .error-page h1 {
+      font-size: 3em;
+      color: #ff4d4d; /* Red Premium Theme */
+      margin-bottom: 20px;
+    }
+
+    .error-page p {
+      font-size: 1.2em;
+      color: #666666;
+      margin-bottom: 20px;
+    }
+
+    .error-page a {
+      background-color: #0000ff; /* Blue Premium Theme */
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 1em;
+      transition: background-color 0.3s ease;
+    }
+
+    .error-page a:hover {
+      background-color: #0000cc; /* Darker blue on hover */
+    }
+
+    /* Labels Page Header */
+    .labels-header {
+      text-align: center;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+    }
+
+    .labels-header h2 {
+      font-size: 1.5em;
+      color: #0000ff; /* Blue Premium Theme */
+      margin-bottom: 10px;
+    }
+
+    .labels-header p {
+      font-size: 1em;
+      color: #666666;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #0000ff; /* Blue Premium Theme */
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      margin-top: 20px;
+    }
+
+    footer p {
+      margin: 0;
+      font-size: 0.9em;
+    }
+  ]]></b:skin>
+
+  <!-- JavaScript for Hamburger Menu -->
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+      const hamburger = document.querySelector('.hamburger');
+      const nav = document.querySelector('nav');
+      const closeTab = document.querySelector('.close-tab');
+
+      // Open Menu
+      hamburger.addEventListener('click', function () {
+        nav.classList.add('open');
+        hamburger.classList.add('open');
+        document.body.style.overflow = 'hidden'; // Prevent scrolling when menu is open
+      });
+
+      // Close Menu
+      closeTab.addEventListener('click', function () {
+        nav.classList.remove('open');
+        hamburger.classList.remove('open');
+        document.body.style.overflow = ''; // Restore scrolling when menu is closed
+      });
+
+      // Close Menu When Clicking Outside
+      document.addEventListener('click', function (event) {
+        if (!nav.contains(event.target) && !hamburger.contains(event.target)) {
+          nav.classList.remove('open');
+          hamburger.classList.remove('open');
+          document.body.style.overflow = ''; // Restore scrolling
+        }
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <!-- Header Section -->
+  <header>
+    <div class="hamburger">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <a href='/' class="logo"><data:blog.title/></a>
+    <div class="search-bar">
+      <form expr:action='/search' method='get'>
+        <input type="text" name="q" placeholder="Search..." required/>
+        <button type="submit">Search</button>
+      </form>
+    </div>
+    <nav>
+      <span class="close-tab">&amp;times;</span>
+      <ul>
+        <li><a href='/'>Home</a></li>
+        <li class="has-submenu"><a href='/about'>About</a>
+          <ul>
+            <li class="has-submenu"><a href='/about/team'>Our Team</a>
+              <ul>
+                <li><a href='/about/team/komal'>Komal</a></li>
+                <li><a href='/about/team/varun'>Varun</a></li>
+              </ul>
+            </li>
+            <li><a href='/about/mission'>Our Mission</a></li>
+          </ul>
+        </li>
+        <li><a href='/contact'>Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <div class='container'>
+    <div class='main-content'>
+      <b:section id='main' showaddelement='yes'>
+        <b:widget id='Blog1' locked='true' title='Blog Posts' type='Blog'>
+          <b:includable id='main'>
+            <!-- Homepage Layout -->
+            <b:if cond='data:view.isHomepage'>
+              <div class='home-cards'>
+                <b:loop values='data:posts' var='post'>
+                  <div class='home-card'>
+                    <!-- Thumbnail -->
+                    <a expr:href='data:post.url'>
+                      <b:if cond='data:post.firstImageUrl'>
+                        <img expr:src='data:post.firstImageUrl' alt='Post Thumbnail'/>
+                      <b:else/>
+                        <img src='https://via.placeholder.com/300x150' alt='Placeholder Thumbnail'/>
+                      </b:if>
+                    </a>
+                    <div class='content'>
+                      <!-- Tags as Buttons -->
+                      <p class='tags'>
+                        <b:if cond='data:post.labels'>
+                          <b:loop values='data:post.labels' var='label'>
+                            <a expr:href='data:label.url'><data:label.name/></a>
+                          </b:loop>
+                        </b:if>
+                      </p>
+                      <!-- Title -->
+                      <a expr:href='data:post.url'>
+                        <h2><data:post.title/></h2>
+                      </a>
+                      <!-- Meta Information with Logo -->
+                      <p class='meta'>
+                        <img src='https://via.placeholder.com/20' alt='Logo'/> <!-- Replace with your logo URL -->
+                        <b:if cond='data:post.author'>By <data:post.author/></b:if>
+                        <b:if cond='data:post.date'> | <data:post.date/></b:if>
+                      </p>
+                    </div>
+                  </div>
+                </b:loop>
+              </div>
+            </b:if>
+
+            <!-- Labels Page Layout -->
+            <b:if cond='data:view.isLabelSearch'>
+              <div class='labels-header'>
+                <h2>Showing results for: <data:blog.searchLabel/></h2>
+                <p><b:eval expr='data:posts.length'/> posts found</p>
+              </div>
+
+              <b:if cond='data:posts.length == 0'>
+                <div class='error-page'>
+                  <h1>No Results Found</h1>
+                  <p>Sorry, there are no posts under this label.</p>
+                  <a href='/'>Go Back to Home</a>
+                </div>
+              <b:else/>
+                <div class='home-cards'>
+                  <b:loop values='data:posts' var='post'>
+                    <div class='home-card'>
+                      <!-- Thumbnail -->
+                      <a expr:href='data:post.url'>
+                        <b:if cond='data:post.firstImageUrl'>
+                          <img expr:src='data:post.firstImageUrl' alt='Post Thumbnail'/>
+                        <b:else/>
+                          <img src='https://via.placeholder.com/300x150' alt='Placeholder Thumbnail'/>
+                        </b:if>
+                      </a>
+                      <div class='content'>
+                        <!-- Tags as Buttons -->
+                        <p class='tags'>
+                          <b:if cond='data:post.labels'>
+                            <b:loop values='data:post.labels' var='label'>
+                              <a expr:href='data:label.url'><data:label.name/></a>
+                            </b:loop>
+                          </b:if>
+                        </p>
+                        <!-- Title -->
+                        <a expr:href='data:post.url'>
+                          <h2><data:post.title/></h2>
+                        </a>
+                        <!-- Meta Information with Logo -->
+                        <p class='meta'>
+                          <img src='https://via.placeholder.com/20' alt='Logo'/> <!-- Replace with your logo URL -->
+                          <b:if cond='data:post.author'>By <data:post.author/></b:if>
+                          <b:if cond='data:post.date'> | <data:post.date/></b:if>
+                        </p>
+                      </div>
+                    </div>
+                  </b:loop>
+                </div>
+              </b:if>
+            </b:if>
+
+            <!-- Individual Post Page Layout -->
+            <b:if cond='data:view.isSingleItem'>
+              <b:loop values='data:posts' var='post'>
+                <div class='single-post-header'>
+                  <!-- Breadcrumbs -->
+                  <p class='breadcrumbs'>
+                    <a href='/'>Home</a> >
+                    <b:if cond='data:post.labels'>
+                      <b:loop values='data:post.labels' var='label'>
+                        <b:if cond='data:label.isFirst'>
+                          <a expr:href='data:label.url'><data:label.name/></a> >
+                        </b:if>
+                      </b:loop>
+                    </b:if>
+                    <span><data:post.title/></span>
+                  </p>
+                  <!-- Title -->
+                  <h1><data:post.title/></h1>
+                  <!-- Meta Information -->
+                  <p class='meta'>
+                    <img src='https://via.placeholder.com/20' alt='Logo'/> <!-- Replace with your logo URL -->
+                    <b:if cond='data:post.author'>By <data:post.author/></b:if>
+                    <b:if cond='data:post.date'> | <data:post.date/></b:if>
+                  </p>
+                </div>
+                <!-- Post Content -->
+                <div class='post-content-card'>
+                  <p><data:post.body/></p>
+                  <!-- Tags -->
+                  <p class='tags'>
+                    <span>Tags:</span>
+                    <b:if cond='data:post.labels'>
+                      <b:loop values='data:post.labels' var='label'>
+                        <b:if cond='data:label.isLast'>
+                          <a expr:href='data:label.url'><data:label.name/></a>
+                        <b:else/>
+                          <a expr:href='data:label.url'><data:label.name/></a>,
+                        </b:if>
+                      </b:loop>
+                    </b:if>
+                  </p>
+                </div>
+              </
